@@ -29,6 +29,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 # User auth
 gem 'devise', '~> 4.7', '>= 4.7.3'
+# Emoji picker
+gem 'rails_emoji_picker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
