@@ -1,3 +1,15 @@
-<h1>Conversations#index</h1>
-<a href="/users/sign_out">Sign Out</a>
-<p>Find me in app/views/conversations/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <h3>Conversations</h3>
+      <%= link_to "New Conversation", new_conversation_path %>
+      <div class="list-group">
+        <% @conversations.each do |conversation| %>
+          <%= link_to conversation.name, conversation_messages_path(conversation), class: "list-group-item list-group-item-action" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-8">
+    </div>
+  </div>
+</div>

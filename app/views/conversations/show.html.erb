@@ -1,0 +1,10 @@
+
+<div class="container">
+  <h3><%= @conversation.name %></h3>
+  <div>
+    <%= link_to "Edit", edit_conversation_path(@conversation), class: "btn btn-primary" %>
+    <%= link_to "Destroy", conversation_path(@conversation), class: "btn btn-danger",
+                                                             method: :delete,
+                                                             data: { confirm: "Are you sure?" } %>
+  </div>
+</div>
