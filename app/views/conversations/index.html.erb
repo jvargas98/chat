@@ -1,15 +1,21 @@
-<div class="container">
-  <div class="row">
-    <div class="col-4">
-      <h3>Conversations</h3>
-      <%= link_to "New Conversation", new_conversation_path %>
-      <div class="list-group">
-        <% @conversations.each do |conversation| %>
-          <%= link_to conversation.name, conversation_messages_path(conversation), class: "list-group-item list-group-item-action" %>
-        <% end %>
-      </div>
+<div class="container mt-5">
+  <div class="d-flex flex-column">
+    <h3>Conversations</h3>
+    <div id="new-conversation">
+      <%= link_to "New Conversation", new_conversation_path, remote: true, class: "btn bg-primary text-light" %>
     </div>
-    <div class="col-8">
+    <div class="d-flex flex-row align-items-stretch mt-3">
+      <div class="col-4 p-0">
+        <div class="list-group">
+          <% @conversations.each do |conversation| %>
+            <%= link_to conversation.name, conversation, remote: true, class: "list-group-item list-group-item-action" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-8">
+        <div id="messages">
+        </div>
+      </div>
     </div>
   </div>
 </div>

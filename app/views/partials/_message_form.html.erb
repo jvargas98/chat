@@ -1,0 +1,6 @@
+<%= form_with model: [@conversation, @conversation.messages.build] do |form| %>   
+  <div class="d-flex flex-row">
+    <%= form.text_field :content, class: "form-control" %>
+    <%= form.submit class: "btn bg-primary text-white" %>
+  </div>
+<% end %>
