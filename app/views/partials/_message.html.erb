@@ -1,7 +1,7 @@
 <div class="">
   <strong><%= message.user.user_name %>:</strong>
   <p class="badge bg-success text-wrap m-0 text-white">
-    <%= message.content %>
+    <%= message.status == 0 ? "This message was removed" : message.content %>
   </p>
 </div>
 <p class="m-0"><i><%= message.created_at.strftime("%H:%M") %></i></p>
