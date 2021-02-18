@@ -1,5 +1,6 @@
 class Conversation < ApplicationRecord
   validates :name, :status, presence: true
   has_many :messages, dependent: :destroy
-  belongs_to :user
+  has_many :rooms
+  has_many :users, through: :rooms
 end
