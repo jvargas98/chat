@@ -3,6 +3,10 @@
 </div>
 
 <%= form_with model: @message, remote: true do |form| %>   
+  <% if @message.image.attached? %>
+    <%= form.label :deleteImage %>
+    <%= form.check_box :deleteImage %>
+  <% end %>
   <%= form.text_field :content, class: "form-control", data: { emojiable: true } %>
   <%= form.file_field :image, class: "form-control", placeholder: "image" %>
   <%= form.hidden_field :conversation_id, value: @conversation.id %>

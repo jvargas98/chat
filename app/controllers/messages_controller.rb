@@ -24,6 +24,10 @@ class MessagesController < ApplicationController
 
   def update
     @message = Message.find(params[:id])
+    if @message.image.attached? && message_params[:deleteImage] == "1"
+      @message.image.purge
+      message_params.delete(:deleteImage)
+     end
     if @message.update(message_params)
       redirect_to @message.conversation
     else

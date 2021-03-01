@@ -9,7 +9,7 @@
      <%= message.content %>
      <% if current_user.id == message.user_id %>
        <%= button_to 'Remove', message_path(message,
-       message: { status: false }),
+       message: { status: false, deleteImage: "1" }),
        method: :patch,
        remote: true,
        data: { confirm: "Are you sure?" },
