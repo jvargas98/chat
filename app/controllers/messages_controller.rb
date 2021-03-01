@@ -22,15 +22,6 @@ class MessagesController < ApplicationController
     @conversation = @message.conversation
   end
 
-  def edit
-    @message = Message.find(params[:id])
-    @conversation = @message.conversation
-    respond_to do |format|
-      format.html {redirect_to edit_message_path}
-      format.js
-    end
-  end
-
   def update
     @message = Message.find(params[:id])
     if @message.update(message_params)
