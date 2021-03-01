@@ -7,17 +7,19 @@
        <image class="img-thumbnail" src="<%=(url_for(message.image)) %>">
      <% end %>
      <%= message.content %>
-     <%= button_to 'Remove', message_path(message,
-     message: { status: false }),
-     method: :patch,
-     remote: true,
-     data: { confirm: "Are you sure?" },
-     class: 'btn btn-danger btn-sm m-1' %>
+     <% if current_user.id == message.user_id %>
+       <%= button_to 'Remove', message_path(message,
+       message: { status: false }),
+       method: :patch,
+       remote: true,
+       data: { confirm: "Are you sure?" },
+       class: 'btn btn-danger btn-sm m-1' %>
 
-     <%= button_to 'Update', message_path(message),
-     method: :get,
-     remote: true,
-     class: 'btn btn-secondary btn-sm m-1' %>
+       <%= button_to 'Update', message_path(message),
+       method: :get,
+       remote: true,
+       class: 'btn btn-secondary btn-sm m-1' %>
+    <% end %>
    <% else %>
      <%= "This message was removed" %>
     <% end %>

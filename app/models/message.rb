@@ -8,4 +8,5 @@ class Message < ApplicationRecord
   def alive?
    status
   end
-end
+
+  end
