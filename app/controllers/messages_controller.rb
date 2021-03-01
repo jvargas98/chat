@@ -2,7 +2,7 @@ require 'byebug'
 
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :conversation
+  before_action :get_conversation, except: [:edit, :update, :show] 
 
   def index
     @messages = @conversation.messages
@@ -10,22 +10,43 @@ class MessagesController < ApplicationController
 
   def create
     @message = @conversation.messages.build(message_params)
-    @message.user_id = current_user.id
-    @message.status = 1
     if @message.save
-      redirect_to @conversation
+      redirect_to @message.conversation
     else
       render :new
     end
   end
 
+  def show
+    @message = Message.find(params[:id])
+    @conversation = @message.conversation
+  end
+
+  def edit
+    @message = Message.find(params[:id])
+    @conversation = @message.conversation
+    respond_to do |format|
+      format.html {redirect_to edit_message_path}
+      format.js
+    end
+  end
+
+  def update
+    @message = Message.find(params[:id])
+    if @message.update(message_params)
+      redirect_to @message.conversation
+    else
+      redirect_to root_path
+    end
+  end
+
   private
 
-  def conversation
+  def get_conversation
     @conversation = current_user.conversations.find(params[:conversation_id])
   end
 
   def message_params
-    params.require(:message).permit(:content, :status)
+    params.require(:message).permit!
   end
 end

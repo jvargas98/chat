@@ -11,7 +11,11 @@
     <% @conversation.messages.each do |message| %>
       <div class="badge bg-success m-1">
         <strong><%= message.user.user_name %>:</strong>
-        <%= message.content %>
+         <% if message.alive? %>
+           <%= message.content %>
+         <% else %>
+           <%=  "This message was removed" %>
+        <% end %>
       </div>
     <% end %>
   </div>

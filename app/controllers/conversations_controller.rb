@@ -18,6 +18,7 @@ class ConversationsController < ApplicationController
     @conversation = current_user.conversations.build(conversation_params)
     @conversation.status = 1
     if @conversation.save
+      room_create
       render :show, status: :created, location: @conversation
     else
       render :new
@@ -44,6 +45,13 @@ class ConversationsController < ApplicationController
   end
 
   def conversation_params
-    params.require(:conversation).permit(:name, :status)
+    params.require(:conversation).permit(:name, :status, :user_ids)
+  end
+
+  def room_create
+    params[:conversation][:user_ids].each do |id| 
+      next if id.empty?
+        Room.create(conversation: @conversation, user: User.find(id))
+      end
   end
 end

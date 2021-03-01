@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :conversations do
+  resources :conversations, shallow: true do
     resources :messages
   end
 
