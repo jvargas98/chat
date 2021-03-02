@@ -19,7 +19,7 @@ class ConversationsController < ApplicationController
     @conversation.status = 1
     if @conversation.save
       room_create
-      render :show, status: :created, location: @conversation
+      redirect_to @conversation
     else
       render :new
     end
