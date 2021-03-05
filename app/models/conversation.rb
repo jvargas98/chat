@@ -7,6 +7,8 @@ class Conversation < ApplicationRecord
   has_many :rooms, inverse_of: :conversation, dependent: :destroy
   has_many :users, through: :rooms
 
+  scope :by_date, -> { order('created_at DESC') }
+
   def get_message_colors
      colors_hash = {}
      self.users.each do |user|

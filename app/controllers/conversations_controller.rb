@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: %i[show edit update destroy]
 
   def index
-    @conversations = current_user.conversations
+    @conversations = ConversationsQuery.new(current_user).of_current_user.by_date
   end
 
   def show; end
