@@ -5,9 +5,7 @@ class MessageDeleter < ApplicationService
   end
 
   def call
-    if @message.image.attached? && @params[:deleteImage] == "1"
-      @message.image.purge
-    end
+    @message.image.purge if @message.image.attached? && (@params[:deleteImage] == "1")
 
     @params.delete(:deleteImage)
 

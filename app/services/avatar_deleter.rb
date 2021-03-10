@@ -5,15 +5,12 @@ class AvatarDeleter < ApplicationService
   end
 
   def call
-     if @user.image.attached? && @params[:deleteImage] == "1"
-      @user.image.purge
-    end
+    @user.image.purge if @user.image.attached? && (@params[:deleteImage] == "1")
 
-     @user.image.purge
-     @params.delete(:deleteImage)
+    @params.delete(:deleteImage)
 
-     @user.update(@params)
-     return true unless @user.image.attached?
-    false 
+    @user.update(@params)
+    return true unless @user.image.attached?
+   false 
   end
 end
