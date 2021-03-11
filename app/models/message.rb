@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  validates :content, presence: true
+  validates :content, :user_id, :conversation_id, presence: true
   attribute :status, :boolean, default: true
   belongs_to :user
   belongs_to :conversation

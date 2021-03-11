@@ -184,6 +184,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rexml (3.2.4)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -274,6 +275,7 @@ DEPENDENCIES
   rails (~> 6.1.2, >= 6.1.2.1)
   rails-observers
   rails_emoji_picker
+  rexml
   rspec-rails
   sass-rails (>= 6)
   selenium-webdriver
