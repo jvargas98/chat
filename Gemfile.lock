@@ -98,11 +98,11 @@ GEM
     emoji (1.0.7)
       json
     erubi (1.10.0)
-    factory_girl (4.9.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
-      railties (>= 3.0.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
     faker (2.16.0)
       i18n (>= 1.6, < 2)
     ffi (1.14.2)
@@ -270,7 +270,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   database_cleaner
   devise (~> 4.7, >= 4.7.3)
-  factory_girl_rails
+  factory_bot_rails
   faker
   gemoji
   jbuilder (~> 2.7)
