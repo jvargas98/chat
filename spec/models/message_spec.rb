@@ -2,17 +2,12 @@ require 'rails_helper'
 
 describe Message do
   it "is valid with a content, user_id and conversation_id" do
-    user = User.new(email: 'test@gmail.com', 
-                    name: 'alejandro', 
-                    user_name: 'elale', 
-                    password: 123456789)
-    conversation = Conversation.new(name: 'prueba', status: true)
-    user.save
-    conversation.save
-    message = Message.new(
-      content: "This is a message",
-      user_id: user.id,
-      conversation_id: conversation.id)
+    message = create(:message)
+    # conversation = Conversation.new(name: 'prueba', status: true)
+    # message = Message.new(
+    #   content: "This is a message",
+    #   user_id: user.id,
+    #   conversation_id: conversation.id)
     expect(message).to be_valid
   end
 
