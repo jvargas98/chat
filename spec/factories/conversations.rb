@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :conversation do
-    name { 'Test conversation' }
+    name { Faker::Lorem.word }
     status { true }
   end
 end
