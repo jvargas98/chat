@@ -11,12 +11,16 @@
     <% @conversation.messages.each do |message| %>
       <div class="badge bg-success m-1">
         <strong><%= message.user.user_name %>:</strong>
-        <%= message.content %>
+         <% if message.alive? %>
+           <%= message.content %>
+         <% else %>
+           <%=  "This message was removed" %>
+        <% end %>
       </div>
     <% end %>
   </div>
 
-    <%= form_with model: [@conversation, @conversation.messages.build] do |form| %>   
+    <%= form_with model: [@conversation, @conversation.messages.build], remote: true do |form| %>   
       <div class="d-flex flex-row">
         <%= form.text_field :content, class: "form-control" %>
         <%= form.submit class: "btn bg-primary text-white" %>

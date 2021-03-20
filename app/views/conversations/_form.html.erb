@@ -3,6 +3,14 @@
     <div class="field">
       <%= form.label :name, class: "form-label" %><br>
       <%= form.text_field :name, class: "form-control" %>
+      <p>Users to chat with</p>
+       <%= form.collection_check_boxes :user_ids, User.all, :id, :name do |b| %>
+        <div class="collection-check-box">
+          <% next if(current_user.name == b.text)  %>
+          <%= b.check_box %>
+          <%= b.label %>
+        </div>
+      <% end %>
       <% conversation.errors.full_messages_for(:name).each do |message| %>
         <div><%= message %></div>
       <% end %>
