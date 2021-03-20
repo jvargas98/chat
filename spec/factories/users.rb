@@ -4,12 +4,30 @@ FactoryBot.define do
     password { Faker::Internet.password }
     name { Faker::Name.first_name }
     user_name { Faker::Internet.username }
+
+    factory :user_with_conversations do
+      transient do
+        conversations_count { 5 }
+      end
+
+      after(:create) do |user, evaluator|
+        # create(:room, user_id: user.id, conversation_id: create(:conversation).id)
+        create_list(:room, evaluator.conversations_count, user_id: user.id) do |room, index|
+        room.conversation_id = create(:conversation).id
+        end
+        user.reload
+      end
+    end
+
+    factory :user_with_messages do
+      transient do
+        messages_count { 5 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:message, evaluator.messages_count, user: user)
+        user.reload
+      end
+    end
   end
 end
-
-def user_with_messages(messages_count: 5)
-  FactoryBot.create(:user) do |user|
-    FactoryBot.create_list(:message, messages_count, user: user)
-  end
-end
-

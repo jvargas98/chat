@@ -6,7 +6,8 @@ class ConversationsController < ApplicationController
     @conversations = ConversationsQuery.new(current_user).of_current_user.by_date
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @conversation = current_user.conversations.build
@@ -16,7 +17,6 @@ class ConversationsController < ApplicationController
 
   def create
     @conversation = current_user.conversations.build(conversation_params)
-    @conversation.status = 1
     if @conversation.save
       room_create
       redirect_to @conversation

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Message do
+RSpec.describe Message, type: :model do
   it "is valid with a content, user_id and conversation_id" do
     message = create(:message)
     expect(message).to be_valid
