@@ -100,19 +100,68 @@ RSpec.describe ConversationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before :each do
+      @user = create(:user_with_conversations)
+      @conversation = @user.conversations.first
+      sign_in @user
+    end
+
     context "with valid attributes" do
-      it 'updates the conversation in the database'
-      it 'redirects to the conversation'
+      it 'locates the requested @conversation' do
+        patch :update, params: { id: @conversation,
+                                 conversation: attributes_for(:conversation_with_users,
+                                 user_ids: @conversation.users.ids) }
+        expect(assigns(:conversation)).to eq(@conversation)
+      end
+
+      it "changes @conversation's attributes" do
+        patch :update, params: { id: @conversation,
+          conversation: attributes_for(:conversation_with_users,
+                                       name: "New conver name") }
+        @conversation.reload
+        expect(@conversation.name).to eq('New conver name')
+      end
+
+      it "redirects to the updated conversation" do
+        patch :update, params: { id: @conversation, 
+                                 conversation: attributes_for(:conversation_with_users) }
+        expect(response).to redirect_to @conversation
+      end
     end
 
     context "with invalid attributes" do
-      it 'does not update the conversation'
-      it 're-renders the :edit template'
+      it 'does not update the conversation' do 
+        patch :update, params: { id: @conversation, 
+                                 conversation: attributes_for(:conversation_with_users,
+                                 name:"", status: "")}
+        @conversation.reload
+        expect(@conversation.name).not_to eq("")
+        expect(@conversation.status).not_to eq("")
+      end
+
+      it 're-renders the :edit template' do
+        patch :update, params: { id: @conversation, 
+                                 conversation: attributes_for(:invalid_conversation)}
+        expect(response).to render_template :edit
+      end
     end
   end
 
   describe 'DELETE #destroy' do
-    it 'deletes the conversation from the database'
-    it 'redirects to the root path'
+    before :each do
+      @user = create(:user_with_conversations)
+      @conversation = @user.conversations.first
+      sign_in @user
+    end
+
+    it 'deletes the conversation from the database' do
+      expect{
+        delete :destroy, params: { id: @conversation }}.to change(Conversation, :count).by(-1)
+    end
+
+    it 'redirects to the root path' do
+      delete :destroy, params: { id: @conversation }
+      expect(response).to redirect_to root_path
+    end
   end
 end
