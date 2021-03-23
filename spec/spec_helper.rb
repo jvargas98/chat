@@ -7,6 +7,9 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter 'spec/rails_helper.rb'
+  add_filter '/bin/'
+  add_filter '/db/'
+  add_filter '/channels/'
 end
 puts "required simplecov"
 # Given that it is always loaded, you are encouraged to keep this file as
