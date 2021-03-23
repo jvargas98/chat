@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :user do
-    email { Faker::Internet.safe_email }
+    email { Faker::Internet.unique.safe_email }
     password { Faker::Internet.password }
     name { Faker::Name.first_name }
-    user_name { Faker::Internet.username }
+    user_name { Faker::Internet.unique.username }
 
     factory :user_with_conversations do
       transient do
@@ -11,7 +11,6 @@ FactoryBot.define do
       end
 
       after(:create) do |user, evaluator|
-        # create(:room, user_id: user.id, conversation_id: create(:conversation).id)
         create_list(:room, evaluator.conversations_count, user_id: user.id) do |room, index|
         room.conversation_id = create(:conversation).id
         end
