@@ -33,7 +33,7 @@ gem 'gemoji'
 gem 'rails-observers'
 gem 'active_storage_validations'
 gem 'mini_magick', '>= 4.9.5'
-
+gem 'react-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
