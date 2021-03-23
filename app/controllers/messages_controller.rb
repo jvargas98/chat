@@ -13,13 +13,16 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to @message.conversation
     else
-      render :new
+      redirect_to root_path
     end
   end
 
   def show
     @message = Message.find(params[:id])
     @conversation = @message.conversation
+  end
+
+  def edit
   end
 
   def update
