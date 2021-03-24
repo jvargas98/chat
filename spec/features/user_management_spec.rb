@@ -16,4 +16,14 @@ feature 'User management' do
     }.to change(User, :count).by(1)
     expect(current_path).to eq root_path
   end
+
+  scenario "Already existent user can Log in" do
+    user = create(:user)
+
+    visit root_path
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
+    click_button 'Log in'
+    expect(current_path).to eq root_path
+  end
 end
