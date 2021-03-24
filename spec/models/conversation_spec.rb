@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Conversation, type: :model do
+RSpec.describe Conversation do
   it "is valid with a name and status" do
     conversation = build(:conversation)
     expect(conversation).to be_valid

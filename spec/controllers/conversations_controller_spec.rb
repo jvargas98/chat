@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConversationsController, type: :controller do
+RSpec.describe ConversationsController do
   let(:valid_session) { {} }
 
   describe 'GET #index' do

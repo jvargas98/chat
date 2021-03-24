@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   it "is valid with an email, password, name and user_name" do
     user = create(:user)
     expect(user).to be_valid

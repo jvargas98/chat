@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MessagesController, type: :controller do
+RSpec.describe MessagesController do
   let(:valid_session) { {} }
 
   describe 'GET #index' do

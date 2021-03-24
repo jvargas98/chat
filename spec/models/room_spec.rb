@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Room, type: :model do
+RSpec.describe Room do
   it "is valid with an user_id and conversation_id" do
     room = create(:room)
     expect(room).to be_valid
