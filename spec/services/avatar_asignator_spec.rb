@@ -7,8 +7,8 @@ RSpec.describe AvatarAsignator do
     end
 
     it "Has a default avatar image attached to it" do
+      AvatarAsignator.call(@user)
       expect(@user.image.attached?).to be true
     end
-
   end
 end
