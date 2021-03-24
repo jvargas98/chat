@@ -45,11 +45,11 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  # config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
-  # config.before(:each) { DatabaseCleaner.strategy = :transaction }
-  # config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
-  # config.before(:each) { DatabaseCleaner.start }
-  # config.before(:each) { DatabaseCleaner.clean }
+  config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
+  config.before(:each) { DatabaseCleaner.strategy = :transaction }
+  config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
+  config.before(:each) { DatabaseCleaner.start }
+  config.before(:each) { DatabaseCleaner.clean }
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
