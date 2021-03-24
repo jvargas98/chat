@@ -7,15 +7,15 @@ RSpec.describe MessageDeleter do
     end
 
     it "Soft deletes the message" do
-      @params = { deleteImage: "1" }
-      MessageDeleter.call(@user, @params) 
+      @params = { status: false, deleteImage: "1" }
+      MessageDeleter.call(@message, @params) 
       expect(@message.alive?).to be false
     end
 
     it "removes the image from the message" do
-      @params = { deleteImage: "1" }
+      @params = { status: false, deleteImage: "1" }
       MessageDeleter.call(@message, @params) 
-      expect(@message.image.atacched?).to be false
+      expect(@message.image.attached?).to be false
     end
   end
 end
