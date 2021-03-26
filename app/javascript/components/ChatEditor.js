@@ -5,7 +5,8 @@ class ChatEditor extends React.Component {
   render(){
   return (
     <Editor
-      apiKey="9loq66jpuhdhxhjfc6znweyyys5dgxwd6yw61gc0732rb94e"
+      // apiKey= {this.props.API_KEY}
+      apiKey = {process.env.REACT_APP_TINYMCE_KEY}
       init={{
         plugins: "emoticons",
         toolbar: "emoticons",
