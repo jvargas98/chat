@@ -1,7 +1,7 @@
 <%= form_with model: [@conversation, @conversation.messages.build], remote: true do |form| %>   
   <div class="d-flex flex-row">
-    <%= form.text_field :content, class: "form-control", data: { emojiable: true } %>
     <%= form.file_field :image, class: "form-control", placeholder: "image" %>
+    <%= form.hidden_field :content, class: "form-control" %>
     <%= form.hidden_field :conversation_id, value: @conversation.id %>
     <%= form.hidden_field :user_id,  value: current_user.id %>
     <%= form.submit class: "btn bg-primary text-white" %>

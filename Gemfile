@@ -33,13 +33,20 @@ gem 'gemoji'
 gem 'rails-observers'
 gem 'active_storage_validations'
 gem 'mini_magick', '>= 4.9.5'
-
+gem 'react-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails"
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
+  gem 'rails-controller-testing'
   gem 'rexml'
+  gem 'simplecov'
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 3.26'
+  gem 'selenium-webdriver'
+  gem "database_cleaner"
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -54,13 +61,9 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.26'
-  gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
   gem "faker"
-  gem "database_cleaner"
   gem "launchy"
 end
 

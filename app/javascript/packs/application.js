@@ -8,6 +8,10 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import 'bootstrap'
 import 'css/styles'
+import ReactRailsUJS from 'react_ujs'
 
 Rails.start()
 ActiveStorage.start()
+// Support component names relative to this directory:
+var componentRequireContext = require.context("components", true);
+ReactRailsUJS.useContext(componentRequireContext);
