@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ConversationsController do
   let(:valid_session) { {} }
+  let(:user) { create(:user_with_conversations) }
+  let(:conversation) { user.conversations.first }
 
   describe 'GET #index' do
     login_user
@@ -13,17 +15,13 @@ RSpec.describe ConversationsController do
 
   describe 'GET #show' do
     it 'assign the requested conversation to @conversation' do
-      user = create(:user_with_conversations)
       sign_in user
-      conversation = user.conversations.first
       get :show, params: { id: conversation }
       expect(assigns(:conversation)).to eq conversation
     end
 
     it "renders the :show template" do
-      user = create(:user_with_conversations)
       sign_in user
-      conversation = user.conversations.first
       get :show, params: { id: conversation }
       expect(response).to render_template :show
     end
@@ -44,103 +42,101 @@ RSpec.describe ConversationsController do
   
   describe 'GET #edit' do
     it "renders the :edit template" do
-      user = create(:user_with_conversations)
       sign_in user
-      conversation = user.conversations.first
       get :edit, params: { id: conversation }
       expect(response).to render_template :edit
     end
   end
 
   describe 'POST #create' do
-    before :each do
-      @user = create(:user_with_conversations)
-      @conversation = create(:conversation_with_users)
-      sign_in @user
-    end
+    let(:conversation_with_users) { create(:conversation_with_users) }
 
     context "with valid attibutes" do
       it "saves the new Conversation in the database" do
+        sign_in user
         expect{
           post :create, params: { conversation: attributes_for(:conversation_with_users, 
-                                                               user_ids: @conversation.users.ids)}
+                                                               user_ids: conversation.users.ids)}
         }.to change(Conversation, :count).by(1)
       end
       
       it "creates a Room for each User in the conversation" do
+        sign_in user
         expect{
           post :create, params: { conversation: attributes_for(:conversation_with_users, 
-                                                               user_ids: @conversation.users.ids)}
-        }.to change(Room, :count).by(@conversation.users.ids.count + 1)
+                                                               user_ids: conversation.users.ids)}
+        }.to change(Room, :count).by(conversation.users.ids.count + 1)
       end
 
       it "redirects to conversation#show" do
+        sign_in user
           post :create, params: { conversation: attributes_for(:conversation_with_users, 
-                                                               user_ids: @conversation.users.ids)}
+                                                               user_ids: conversation.users.ids)}
           expect(response).to redirect_to conversation_path(assigns[:conversation])
       end
     end
     
     context "with invalid attributes" do
       it "does not save the new Conversation in the database" do
+        sign_in user
         expect{
           post :create,
           params: { conversation: attributes_for(:invalid_conversation, 
-                    user_ids: @conversation.users.ids)}}
+                    user_ids: conversation.users.ids)}}
           .not_to change(Conversation, :count)
       end
 
       it "re-renders the :new template" do
+        sign_in user
         post :create,
         params: { conversation: attributes_for(:invalid_conversation, 
-                  user_ids: @conversation.users.ids)}
+                  user_ids: conversation.users.ids)}
         expect(response).to render_template :new
       end
     end
   end
 
   describe 'PATCH #update' do
-    before :each do
-      @user = create(:user_with_conversations)
-      @conversation = @user.conversations.first
-      sign_in @user
-    end
-
     context "with valid attributes" do
       it 'locates the requested @conversation' do
-        patch :update, params: { id: @conversation,
+        sign_in user
+        patch :update, params: { id: conversation,
                                  conversation: attributes_for(:conversation_with_users,
-                                 user_ids: @conversation.users.ids) }
-        expect(assigns(:conversation)).to eq(@conversation)
+                                 user_ids: conversation.users.ids) }
+        expect(assigns(:conversation)).to eq(conversation)
       end
 
       it "changes @conversation's attributes" do
-        patch :update, params: { id: @conversation,
+        sign_in user
+        patch :update, params: { id: conversation,
           conversation: attributes_for(:conversation_with_users,
                                        name: "New conver name") }
-        @conversation.reload
-        expect(@conversation.name).to eq('New conver name')
+        conversation.reload
+        expect(conversation.name).to eq('New conver name')
       end
 
       it "redirects to the updated conversation" do
-        patch :update, params: { id: @conversation, 
+        sign_in user
+        patch :update, params: { id: conversation, 
                                  conversation: attributes_for(:conversation_with_users) }
-        expect(response).to redirect_to @conversation
+        expect(response).to redirect_to conversation
       end
     end
 
     context "with invalid attributes" do
       it 'does not update the conversation' do 
-        patch :update, params: { id: @conversation, 
+        sign_in user
+        patch :update, params: { id: conversation, 
                                  conversation: attributes_for(:conversation_with_users,
                                  name:"", status: "")}
-        @conversation.reload
-        expect(@conversation.name).not_to eq("")
-        expect(@conversation.status).not_to eq("")
+        conversation.reload
+        expect(conversation.name).not_to eq("")
+        expect(conversation.status).not_to eq("")
       end
 
       it 're-renders the :edit template' do
-        patch :update, params: { id: @conversation, 
+        sign_in user
+        patch :update, params: { id: conversation, 
                                  conversation: attributes_for(:invalid_conversation)}
         expect(response).to render_template :edit
       end
@@ -148,19 +144,16 @@ RSpec.describe ConversationsController do
   end
 
   describe 'DELETE #destroy' do
-    before :each do
-      @user = create(:user_with_conversations)
-      @conversation = @user.conversations.first
-      sign_in @user
-    end
-
     it 'deletes the conversation from the database' do
+      sign_in user
+      conversation
       expect{
-        delete :destroy, params: { id: @conversation }}.to change(Conversation, :count).by(-1)
+        delete :destroy, params: { id: conversation }}.to change(Conversation, :count).by(-1)
     end
 
     it 'redirects to the root path' do
-      delete :destroy, params: { id: @conversation }
+      sign_in user
+      delete :destroy, params: { id: conversation }
       expect(response).to redirect_to root_path
     end
   end
