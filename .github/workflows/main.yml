@@ -1,23 +1,32 @@
 name: Ruby
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
-  test:
-
-    runs-on: ubuntu-latest
-
+  build:
+    name: Ruby
+    runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.0.0
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rspec spec
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install sqlite
+        run: sudo apt-get install libsqlite3-dev
+      - name: Install yarn
+        run: | 
+          sudo apt install yarn
+          yarn install
+      - name: Run bundle install
+        working-directory: ${{env.api-dir}}
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Setup Database
+        run: |
+          bundler exec rails db:create
+          bundler exec rails db:migrate
+      - name: Build and test with rspec
+        env:
+          RAILS_ENV: test
+        run: bundle exec rspec spec
