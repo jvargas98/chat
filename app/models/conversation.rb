@@ -1,7 +1,7 @@
 class Conversation < ApplicationRecord
   after_initialize :get_message_colors
   attr_reader :message_colors
-  validates :name, presence: true
+  validates :name, :status, presence: true
   attribute :status, :boolean, default: true
   has_many :messages, dependent: :destroy
   has_many :rooms, inverse_of: :conversation, dependent: :destroy
