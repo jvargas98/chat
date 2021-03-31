@@ -1,7 +1,33 @@
-<div class="">
-  <strong><%= message.user.user_name %>:</strong>
-  <p class="badge bg-success text-wrap m-0 text-white">
-    <%= message.status == 0 ? "This message was removed" : message.content %>
-  </p>
-</div>
-<p class="m-0"><i><%= message.created_at.strftime("%H:%M") %></i></p>
+<%= stylesheet_link_tag "message_form" %>
+<div class="d-flex align-items-start justify-content-center" >
+  <% if message.user.image.attached? %>
+    <image class="m-1 rounded-circle mx-auto d-block" width= "35px" height="35px" src="<%=(url_for(message.user.image)) %>">
+  <% end %>
+  <strong class="m-1"><%= message.user.user_name %>:</strong>
+  <p style="background-color:<%= message.conversation.message_colors[message.user.id] %>;"
+  class="badge text-wrap m-1 text-white" id="message">
+  <i class="m-1" ><%= message.created_at.strftime("%H:%M") %></i>
+   <% if message.alive? %>
+     <% if message.image.attached? %>
+       <image class="img-thumbnail" src="<%=(url_for(message.image)) %>">
+     <% end %>
+     <%= message.content %>
+     <% if current_user.id == message.user_id %>
+       <%= button_to 'Remove', message_path(message,
+           message: { status: false, deleteImage: "1" }),
+           method: :patch,
+           remote: true,
+           data: { confirm: "Are you sure?" },
+           class: 'btn btn-danger btn-sm m-1' %>
+
+       <%= button_to 'Update', message_path(message),
+           method: :get,
+           remote: true,
+           class: 'btn btn-secondary btn-sm m-1' %>
+    <% end %>
+     <% else %>
+       <%= "This message was removed" %>
+    <% end %>
+   </p>
+  </div>
+

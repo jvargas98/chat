@@ -1,5 +1,19 @@
 class Conversation < ApplicationRecord
-  validates :name, :status, presence: true
+  after_initialize :get_message_colors
+  attr_reader :message_colors
+  validates :name, presence: true
+  attribute :status, :boolean, default: true
   has_many :messages, dependent: :destroy
-  belongs_to :user
+  has_many :rooms, inverse_of: :conversation, dependent: :destroy
+  has_many :users, through: :rooms
+
+  scope :by_date, -> { order('created_at DESC') }
+
+  def get_message_colors
+     colors_hash = {}
+     self.users.each do |user|
+       colors_hash[user.id] = "##{SecureRandom.hex(3)}" 
+      end
+     @message_colors = colors_hash
+  end
 end

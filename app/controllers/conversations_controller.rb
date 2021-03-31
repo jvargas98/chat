@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: %i[show edit update destroy]
 
   def index
-    @conversations = current_user.conversations
+    @conversations = ConversationsQuery.new(current_user).of_current_user.by_date
   end
 
   def show; end
@@ -18,7 +18,8 @@ class ConversationsController < ApplicationController
     @conversation = current_user.conversations.build(conversation_params)
     @conversation.status = 1
     if @conversation.save
-      render :show, status: :created, location: @conversation
+      room_create
+      redirect_to @conversation
     else
       render :new
     end
@@ -44,6 +45,13 @@ class ConversationsController < ApplicationController
   end
 
   def conversation_params
-    params.require(:conversation).permit(:name, :status)
+    params.require(:conversation).permit(:name, :status, :user_ids)
+  end
+
+  def room_create
+    params[:conversation][:user_ids].each do |id| 
+      next if id.empty?
+        Room.create(conversation: @conversation, user: User.find(id))
+      end
   end
 end

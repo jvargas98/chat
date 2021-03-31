@@ -1,0 +1,15 @@
+<div class="d-flex align-items-start flex-column border rounded p-3">
+  <%= render partial: "partials/message", collection: @conversation.messages %>
+</div>
+
+<%= form_with model: @message, remote: true do |form| %>   
+  <% if @message.image.attached? %>
+    <%= form.label :deleteImage %>
+    <%= form.check_box :deleteImage %>
+  <% end %>
+  <%= form.text_field :content, class: "form-control", data: { emojiable: true } %>
+  <%= form.file_field :image, class: "form-control", placeholder: "image" %>
+  <%= form.hidden_field :conversation_id, value: @conversation.id %>
+  <%= form.hidden_field :user_id,  value: current_user.id %>
+  <%= form.submit class: "btn bg-primary text-white" %>
+<% end %>
