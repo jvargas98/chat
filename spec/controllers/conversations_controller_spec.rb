@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ConversationsController do
-  let(:valid_session) { {} }
   let(:user) { create(:user_with_conversations) }
   let(:conversation) { user.conversations.first }
 
   describe 'GET #index' do
     login_user
     it 'renders the :index template' do
-      get :index, session: valid_session 
+      get :index
       expect(response).to render_template :index
       end
   end
