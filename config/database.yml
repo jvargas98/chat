@@ -21,6 +21,6 @@ test:
 
 production:
   <<: *default
-  database: chat_production
-  username: postgres
-  password: <%= ENV['GROWING_DATABASE_PASSWORD'] %>
+  database: chat-rails-production
+  username: <%= Rails.application.credentials.dig(:production, :PG_USERNAME) %>
+  password: <%= Rails.application.credentials.dig(:production, :PG_PASSWORD) %>
