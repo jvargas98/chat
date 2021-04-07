@@ -1,0 +1,56 @@
+name: Ruby
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Ruby
+    runs-on: ubuntu-18.04
+    services:
+      postgres:
+        image: postgres:12
+        ports: ['5432:5432']
+        env:
+          POSTGRES_USER: ${{ secrets.PG_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.PG_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install postgres client
+        run: sudo apt-get install libpq-dev
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15.5
+      - name: Install yarn
+        run: | 
+          sudo apt install yarn
+          yarn install
+      - name: Setup Database
+        working-directory: ${{env.api-dir}}
+        env:
+          RAILS_ENV: test
+          PG_HOST: localhost
+          PG_USER: ${{ secrets.PG_USER }}
+          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+      - name: Build and test with rspec
+        env:
+          RAILS_ENV: test
+          PG_HOST: localhost
+          PG_USER: ${{ secrets.PG_USER }}
+          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+        run: bin/rspec
+      - name: Simplecov Report
+        uses: aki77/simplecov-report-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
