@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MessagesController do
-  let(:valid_session) { {} }
   let(:user) { create(:user_with_conversations) }
   let(:conversation) { user.conversations.first }
   let(:message) { create(:message, conversation_id: conversation.id, user_id: user.id ) }
@@ -23,9 +22,7 @@ RSpec.describe MessagesController do
 
     it 'assign the requested message conversation to @conversation' do
       sign_in user
-      conversation
-      message
-      get :show, params: { id: conversation }, xhr: true
+      get :show, params: { id: message }, xhr: true
       expect(assigns(:conversation)).to eq conversation
     end
 
@@ -123,7 +120,7 @@ RSpec.describe MessagesController do
                                                          user_id: user.id,
                                                          conversation_id: conversation.id),
                                  conversation_id: conversation.id}
-        expect(response).to redirect_to conversation_path(assigns[:message])
+        expect(response).to redirect_to conversation_path(conversation.id)
       end
 
     context "with invalid attributes" do
@@ -163,7 +160,7 @@ RSpec.describe MessagesController do
       sign_in user
       patch :update, params: { id: message, message: {status: false }}
       message.reload
-      expect(response).to redirect_to conversation_path
+      expect(response).to redirect_to conversation_path(conversation.id)
     end
   end
 end
