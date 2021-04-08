@@ -23,6 +23,8 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: setup-chromedriver
+        uses: nanasess/setup-chromedriver@v1.0.1
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
       - name: Setup Node

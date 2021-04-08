@@ -22,5 +22,5 @@ test:
 production:
   <<: *default
   database: chat-rails-production
-  username: <%= Rails.application.credentials.dig(:PG_USERNAME) %>
-  password: <%= Rails.application.credentials.dig(:PG_PASSWORD) %>
+  username: <%= Rails.application.credentials.dig(:production, :PG_USERNAME) %>
+  password: <%= Rails.application.credentials.dig(:production, :PG_PASSWORD) %>

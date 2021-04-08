@@ -1,5 +1,3 @@
-require 'byebug'
-
 class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_conversation, except: [:edit, :update, :show] 

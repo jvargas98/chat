@@ -5,7 +5,7 @@ require 'capistrano/bundler'
 require 'capistrano/rbenv'
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2,7,1'
+set :rbenv_ruby, '3.0.0'
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
